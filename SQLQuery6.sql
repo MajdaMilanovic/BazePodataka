@@ -12,8 +12,7 @@ FROM employee AS E
 INNER JOIN jobs AS J
 ON E.job_id = J.job_id
 
---3. Prikazati spojeno ime i prezime uposlenika, teritorije i regije koje pokriva. Uslov je da 
---su zaposlenici mlađi od 65 godina. (Northwind) 
+--3. Prikazati spojeno ime i prezime uposlenika, teritorije i regije koje pokriva. Uslov je da su zaposlenici mlađi od 65 godina. (Northwind) 
 USE Northwind
 SELECT CONCAT(E.FirstName, ' ', E.LastName) 'Ime i prezime', T.TerritoryDescription, R.RegionDescription
 FROM Employees AS E
@@ -26,9 +25,8 @@ ON T.RegionID = R.RegionID
 WHERE DATEDIFF(YEAR, E.BirthDate, GETDATE())<65
 
 
---4. Prikazati ukupnu vrijednost obrađenih narudžbi sa popustom za svakog uposlenika 
---pojedinačno. Uslov je da su narudžbe kreirane u 1996. godini, te u obzir uzeti samo one 
---uposlenike čija je ukupna ukupna obrađena vrijednost veća od 20000. Podatke sortirati 
+--4. Prikazati ukupnu vrijednost obrađenih narudžbi sa popustom za svakog uposlenika pojedinačno. Uslov je da su narudžbe kreirane u 1996. godini,
+--te u obzir uzeti samo one uposlenike čija je ukupna ukupna obrađena vrijednost veća od 20000. Podatke sortirati 
 --prema ukupnoj vrijednosti (zaokruženoj na dvije decimale) u rastućem redoslijedu. 
 --(Northwind) 
 
@@ -43,9 +41,8 @@ GROUP BY E.FirstName, E.LastName
 HAVING  ROUND(SUM((OD.UnitPrice*OD.Quantity)*(1-OD.Discount)),2) >20000
 ORDER BY 3
 
---5. Prikazati naziv dobavljača, adresu i državu dobavljača, te nazive proizvoda koji 
---pripadaju kategoriji pića a ima ih na stanju više od 30 komada. Rezultate upita sortirati 
---po državama u abedecnom redoslijedu. (Northwind) 
+--5. Prikazati naziv dobavljača, adresu i državu dobavljača, te nazive proizvoda koji pripadaju kategoriji pića a ima ih na stanju više od 30 komada.
+--Rezultate upita sortirati po državama u abedecednom redoslijedu. (Northwind) 
 
 SELECT S.CompanyName, S.Address, S.Country,P.ProductName
 FROM Suppliers AS S
@@ -58,11 +55,9 @@ ORDER BY 3
 
 
 
---6. Prikazati kontakt ime kupca, njegov id, id narudžbe, datum kreiranja narudžbe 
---(prikazan u formatu dan.mjesec.godina, npr. 24.07.2021) te ukupnu vrijednost 
+--6. Prikazati kontakt ime kupca, njegov id, id narudžbe, datum kreiranja narudžbe (prikazan u formatu dan.mjesec.godina, npr. 24.07.2021), te ukupnu vrijednost 
 --narudžbe sa i bez popusta. Prikazati samo one narudžbe koje su kreirane u 1997. godini. 
---Izračunate vrijednosti zaokružiti na dvije decimale, te podatke sortirati prema ukupnoj 
---vrijednosti narudžbe sa popustom u opadajućem redoslijedu. (Northwind) 
+--Izračunate vrijednosti zaokružiti na dvije decimale, te podatke sortirati prema ukupnoj vrijednosti narudžbe sa popustom u opadajućem redoslijedu. (Northwind) 
 
 SELECT C.ContactName, C.CustomerID, O.OrderID,
 FORMAT(O.OrderDate, 'dd.mm.yyyy') 'Datum narudzbe',
@@ -128,19 +123,10 @@ INTERSECT
 SELECT TA.au_id
 FROM titleauthor AS TA
 
-
-
-
-
-
 --11. Prikazati 10 najskupljih stavki narudžbi.
---Upit treba da sadrži id stavke, naziv proizvoda,
---količinu, cijenu i vrijednost stavke narudžbe.
---Cijenu i vrijednost stavke narudžbe
---zaokružiti na dvije decimale. Izlaz formatirati na način da uz količinu 
---stoji “kom” (npr.
---50 kom) a uz cijenu i vrijednost stavke narudžbe “KM” (npr. 50 KM). 
---(AdventureWorks2017) 
+--Upit treba da sadrži id stavke, naziv proizvoda, količinu, cijenu i vrijednost stavke narudžbe.
+--Cijenu i vrijednost stavke narudžbe zaokružiti na dvije decimale. Izlaz formatirati na način da uz količinu stoji “kom” (npr.50 kom),
+--a uz cijenu i vrijednost stavke narudžbe “KM” (npr. 50 KM). (AdventureWorks2017) 
 
 USE AdventureWorks2017
 SELECT TOP 10 PP.Name,
@@ -153,8 +139,7 @@ INNER JOIN Production.Product AS PP
 ON SOD.ProductID = PP.ProductID
 ORDER BY ROUND((SOD.OrderQty*SOD.UnitPrice),2) DESC
 
---12. Kreirati upit koji prikazuje ukupan broj narudžbi po teritoriji na kojoj je
---kreirana narudžba. Lista treba da sadrži sljedeće kolone:
+--12. Kreirati upit koji prikazuje ukupan broj narudžbi po teritoriji na kojoj je kreirana narudžba. Lista treba da sadrži sljedeće kolone:
 --naziv teritorije, ukupan broj narudžbi. 
 --Uzeti u obzir samo teritorije gdje ima više od 1000 kupaca. (AdventureWorks2017)
 
@@ -166,11 +151,8 @@ GROUP BY SOT.Name
 HAVING COUNT(SOH.CustomerID)>1000
 
 --13. Kreirati upit koji prikazuje zaradu od prodaje proizvoda.
---Lista treba da sadrži naziv proizvoda, ukupnu zaradu bez uračunatog popusta i 
---ukupnu zaradu sa uračunatim popustom. Iznos zarade zaokružiti na dvije decimale.
---Uslov je da se prikaže zarada samo za stavke gdje je bilo popusta. 
---Listu sortirati po zaradi opadajućim redoslijedom. 
---(AdventureWorks2017)
+--Lista treba da sadrži naziv proizvoda, ukupnu zaradu bez uračunatog popusta i  ukupnu zaradu sa uračunatim popustom. Iznos zarade zaokružiti na dvije decimale.
+--Uslov je da se prikaže zarada samo za stavke gdje je bilo popusta. Listu sortirati po zaradi opadajućim redoslijedom. (AdventureWorks2017)
 
 SELECT PP.Name, 
 ROUND(SUM(SOD.OrderQty*SOD.UnitPrice),2) 'Ukupna zarada bez popusta',
